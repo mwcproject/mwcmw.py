@@ -4,14 +4,8 @@ mwc is a privacy-preserving digital currency built openly by developers distribu
 
 This module provides Python wrappers for
 
-* [mwc Wallet API V3](https://docs.mwc.mw/wiki/api/wallet-api/)
-* [mwc Node API V2](https://docs.mwc.mw/wiki/api/node-api/)
-
-Install with
-
-```
-pip install mwcmw
-```
+* [MWC Wallet API V3](https://docs.mwc.mw/wiki/api/wallet-api/)
+* [MWC Node API V2](https://docs.mwc.mw/wiki/api/node-api/)
 
 If you need help please check how to reach our [community](https://mwc.mw/community).
 
