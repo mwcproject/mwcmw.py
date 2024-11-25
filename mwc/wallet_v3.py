@@ -97,9 +97,9 @@ class WalletV3:
         return response_json
 
     ##
-    # The API: https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html
+    # The API: https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.init_secure_api
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.init_secure_api
     def init_secure_api(self):
         pubkey = self.key.public_key.format().hex()
         resp = self.post('init_secure_api', {'ecdh_pubkey': pubkey})
@@ -107,7 +107,7 @@ class WalletV3:
         self.share_secret = PublicKey(bytes.fromhex(remote_pubkey)).multiply(self.key.secret).format().hex()[2:]
         return self.share_secret
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.open_wallet
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.open_wallet
     def open_wallet(self, name, password):
         params = {
                 'name': name,
@@ -117,13 +117,13 @@ class WalletV3:
         self.token = resp['result']['Ok']
         return self.token
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.node_height
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.node_height
     def node_height(self):
         params = { 'token': self.token }
         resp = self.post_encrypted('node_height', params)
         return resp['result']['Ok']
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.retrieve_txs
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.retrieve_txs
     def retrieve_txs(self, tx_id=None, tx_slate_id=None, refresh=True):
         params = {
                 'token': self.token,
@@ -137,7 +137,7 @@ class WalletV3:
             raise WalletError("retrieve_outputs", params, None, "Failed to refresh data from the node")
         return resp["result"]["Ok"][1]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.retrieve_outputs
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.retrieve_outputs
     def retrieve_outputs(self, include_spent=False, tx_id=None, refresh=True):
         params = {
                 'token': self.token,
@@ -151,7 +151,7 @@ class WalletV3:
             raise WalletError("retrieve_outputs", params, None, "Failed to refresh data from the node")
         return resp["result"]["Ok"][1]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.retrieve_summary_info
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.retrieve_summary_info
     def retrieve_summary_info(self, minimum_confirmations=1, refresh=True):
         params = {
                 'token': self.token,
@@ -164,7 +164,7 @@ class WalletV3:
             raise WalletError("retrieve_outputs", params, None, "Failed to refresh data from the node")
         return resp["result"]["Ok"][1]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.cancel_tx
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.cancel_tx
     def cancel_tx(self, tx_id=None, tx_slate_id=None, refresh=True):
         params = {
                 'token': self.token,
@@ -174,7 +174,7 @@ class WalletV3:
         resp = self.post_encrypted('cancel_tx', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.scan
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.scan
     def scan(self, start_height=0, delete_unconfirmed=False):
         params = {
                 'token': self.token,
@@ -184,7 +184,7 @@ class WalletV3:
         resp = self.post_encrypted('scan', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.finalize_tx
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.finalize_tx
     def finalize_tx(self, slate):
         params = {
                 'token': self.token,
@@ -193,7 +193,7 @@ class WalletV3:
         resp = self.post_encrypted('finalize_tx', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.get_stored_tx
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.get_stored_tx
     def get_stored_tx(self, id=None, slate_id=None):
         params = {
                 'token': self.token,
@@ -203,7 +203,7 @@ class WalletV3:
         resp = self.post_encrypted('get_stored_tx', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.init_send_tx
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.init_send_tx
     def init_send_tx(self, args):
         params = {
                 'token': self.token,
@@ -212,7 +212,7 @@ class WalletV3:
         resp = self.post_encrypted('init_send_tx', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.issue_invoice_tx
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.issue_invoice_tx
     def issue_invoice_tx(self, args):
         params = {
                 'token': self.token,
@@ -221,17 +221,17 @@ class WalletV3:
         resp = self.post_encrypted('issue_invoice_tx', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.post_tx
-    def post_tx(self, slate, fluff=False):
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.post_tx
+    def post_tx(self, tx, fluff=False):
         params = {
                 'token': self.token,
-                'slate': slate,
+                'tx': tx,
                 'fluff': fluff,
             }
         resp = self.post_encrypted('post_tx', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.process_invoice_tx
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.process_invoice_tx
     def process_invoice_tx(self, slate, args):
         params = {
                 'token': self.token,
@@ -241,16 +241,17 @@ class WalletV3:
         resp = self.post_encrypted('process_invoice_tx', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.tx_lock_outputs
-    def tx_lock_outputs(self, slate):
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.tx_lock_outputs
+    def tx_lock_outputs(self, slate, participant_id=0):
         params = {
                 'token': self.token,
                 'slate': slate,
+                'participant_id': participant_id
             }
         resp = self.post_encrypted('tx_lock_outputs', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.accounts
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.accounts
     def accounts(self):
         params = {
                 'token': self.token,
@@ -258,7 +259,7 @@ class WalletV3:
         resp = self.post_encrypted('accounts', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.change_password
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.change_password
     def change_password(self, old, new, name):
         params = {
                 'name': name,
@@ -268,7 +269,7 @@ class WalletV3:
         resp = self.post_encrypted('change_password', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.close_wallet
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.close_wallet
     def close_wallet(self, name=None):
         params = {
                 'name': name,
@@ -276,7 +277,7 @@ class WalletV3:
         resp = self.post_encrypted('close_wallet', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.create_account_path
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.create_account_path
     def create_account_path(self, label):
         params = {
                 'token': self.token,
@@ -285,7 +286,7 @@ class WalletV3:
         resp = self.post_encrypted('create_account_path', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.create_config
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.create_config
     def create_config(self, chain_type="Mainnet", wallet_config=None, logging_config=None, tor_config=None):
         params = {
                 'chain_type': chain_type,
@@ -296,18 +297,30 @@ class WalletV3:
         resp = self.post_encrypted('create_config', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.create_slatepack_message
-    def create_slatepack_message(self, slate, recipients, sender_index=None):
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.encode_slatepack_message
+    def encode_slatepack_message(self, slate, content, recipients=None, sender_index=None):
+        # 'SendInitial' if init else 'SendResponse'
         params = {
                 'token': self.token,
                 'slate': slate,
-                'recipients': recipients,
-                'sender_index': sender_index,
+                'content': content,
+                'recipient': recipients, 
+                'address_index': sender_index, 
             }
-        resp = self.post_encrypted('create_slatepack_message', params)
+        resp = self.post_encrypted('encode_slatepack_message', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.delete_wallet
+     # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.decode_slatepack_message
+    def decode_slatepack_message(self, message):
+        params = {
+                'token': self.token,
+                'message': message,
+                'address_index': None,
+            }
+        resp = self.post_encrypted('decode_slatepack_message', params)
+        return resp["result"]["Ok"]
+
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.delete_wallet
     def delete_wallet(self, name=None):
         params = {
                 'name': name,
@@ -315,7 +328,7 @@ class WalletV3:
         resp = self.post_encrypted('delete_wallet', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.get_mnemonic
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.get_mnemonic
     def get_mnemonic(self, password, name=None):
         params = {
                 'name': name,
@@ -324,7 +337,7 @@ class WalletV3:
         resp = self.post_encrypted('get_mnemonic', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.get_slatepack_address
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.get_slatepack_address
     def get_slatepack_address(self, derivation_index=0):
         params = {
                 'token': self.token,
@@ -333,7 +346,7 @@ class WalletV3:
         resp = self.post_encrypted('get_slatepack_address', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.get_slatepack_secret_key
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.get_slatepack_secret_key
     def get_slatepack_secret_key(self, derivation_index=0):
         params = {
                 'token': self.token,
@@ -342,13 +355,13 @@ class WalletV3:
         resp = self.post_encrypted('get_slatepack_secret_key', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.get_top_level_directory
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.get_top_level_directory
     def get_top_level_directory(self):
         params = {}
         resp = self.post_encrypted('get_top_level_directory', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.get_updater_messages
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.get_updater_messages
     def get_updater_messages(self, count=1):
         params = {
                 'count': count,
@@ -356,7 +369,7 @@ class WalletV3:
         resp = self.post_encrypted('get_updater_messages', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.retrieve_payment_proof
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.retrieve_payment_proof
     def retrieve_payment_proof(self, refresh_from_node=True, tx_id=None, tx_slate_id=None):
         params = {
                 'token': self.token,
@@ -367,7 +380,7 @@ class WalletV3:
         resp = self.post_encrypted('retrieve_payment_proof', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.set_active_account
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.set_active_account
     def set_active_account(self, label):
         params = {
                 'token': self.token,
@@ -376,7 +389,7 @@ class WalletV3:
         resp = self.post_encrypted('set_active_account', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.set_top_level_directory
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.set_top_level_directory
     def set_top_level_directory(self, dir):
         params = {
                 'dir': dir,
@@ -384,7 +397,7 @@ class WalletV3:
         resp = self.post_encrypted('set_top_level_directory', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.set_tor_config
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.set_tor_config
     def set_tor_config(self, tor_config=None):
         params = {
                 'tor_config': tor_config,
@@ -392,7 +405,7 @@ class WalletV3:
         resp = self.post_encrypted('set_tor_config', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.slate_from_slatepack_message
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.slate_from_slatepack_message
     def slate_from_slatepack_message(self, message, secret_indices):
         params = {
                 'token': self.token,
@@ -402,7 +415,7 @@ class WalletV3:
         resp = self.post_encrypted('slate_from_slatepack_message', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.start_updater
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.start_updater
     def start_updater(self, frequency):
         params = {
                 'token': self.token,
@@ -411,13 +424,13 @@ class WalletV3:
         resp = self.post_encrypted('start_updater', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.stop_updater
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.stop_updater
     def stop_updater(self):
         params = {}
         resp = self.post_encrypted('stop_updater', params)
         return True
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.verify_payment_proof
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.verify_payment_proof
     def verify_payment_proof(self, proof):
         params = {
                 'token': self.token,
@@ -426,7 +439,7 @@ class WalletV3:
         resp = self.post_encrypted('verify_payment_proof', params)
         return resp["result"]["Ok"]
 
-    # https://docs.rs/mwc_wallet_api/5.3.5/mwc_wallet_api/trait.OwnerRpc.html#tymethod.create_wallet
+    # https://docs.rs/mwc_wallet_api/5.3.4/mwc_wallet_api/trait.OwnerRpcV3.html#tymethod.create_wallet
     def create_wallet(self, password, name=None, mnemonic=None, mnemonic_length=16):
         params = {
                 'password': password,
