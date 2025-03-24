@@ -57,8 +57,6 @@ class WalletV3:
             'method': method,
             'params': params
         }
-        if method == 'receive_tx':
-            print(json.dumps(payload))
         response = requests.post(
                 self.api_url, json=payload,
                 auth=(self.api_user, self.api_password))
@@ -72,7 +70,7 @@ class WalletV3:
         if "Err" in response_json:
             # Another version of a wallet error
             raise WalletError(method, params, None, response_json["result"]["Err"])
-        print(response_json)
+        
         return response_json
 
     def post_encrypted(self, method, params):
@@ -82,7 +80,6 @@ class WalletV3:
             'method': method,
             'params': params
         }
-        print(json.dumps(payload))
         nonce = os.urandom(12)
         encrypted = encrypt(self.share_secret, json.dumps(payload), nonce)
         resp = self.post('encrypted_request_v3', {
@@ -99,8 +96,6 @@ class WalletV3:
         if "Err" in response_json:
             # Another version of a wallet error
             raise WalletError(method, params, None, response_json["result"]["Err"])
-        print(json.dumps(response_json))
-        print()
         return response_json
 
     ##
